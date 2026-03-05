@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Return Forecasting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="background-glow"></div>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Crypto Predictor</h1>
+        <p>ML-Based Multi-Model Ensemble Prediction</p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST" id="predictionForm">
+
+            <div class="input-group">
+                <label>Select Coin</label>
+                <select name="coin" required>
+                    {% for coin in coins %}
+                        <option value="{{ coin }}">{{ coin }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Select Time Horizon</label>
+                <select name="horizon" required>
+                    {% for h in horizons %}
+                        <option value="{{ h }}">{{ h }} Hours</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" id="predictBtn">Predict</button>
+
+        </form>
+    </div>
+
+    {% if prediction is not none %}
+    <div class="result-card">
+
+        <div class="result-header">
+            <h2>{{ selected_coin }}</h2>
+            <span class="badge {{ outcome|lower }}">{{ outcome }}</span>
+        </div>
+
+        <div class="metrics">
+
+            <div class="metric">
+                <p>Expected Change</p>
+                <h3>{{ prediction }}%</h3>
+            </div>
+
+            <div class="metric">
+                <p>Predicted Price</p>
+                <h3>{{ predicted_price }}</h3>
+            </div>
+
+            <div class="metric">
+                <p>Highest</p>
+                <h3>{{ highest_value }}</h3>
+            </div>
+
+            <div class="metric">
+                <p>Lowest</p>
+                <h3>{{ lowest_value }}</h3>
+            </div>
+
+        </div>
+
+        <div class="graph-container">
+            <img src="{{ plot_path }}" alt="Prediction Graph">
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
